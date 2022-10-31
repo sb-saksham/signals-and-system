@@ -1,0 +1,17 @@
+{% extends 'signal.html' %}
+{% block title %}
+    Impulse Signal
+{% endblock %}
+{% block manipulator %}
+    <h3>Time Shift Signal (by a +ve or -ve shift value)</h3>
+    <form method="POST">
+        {% csrf_token %}`
+        <div class="card-body">
+            <div class="mb-3">
+                <label for="shift" class="form-label">Enter time shift value</label>
+                <input type="number" class="form-control" name="shift" id="shift" placeholder="+2 or -2(both positive and negative value allowed)">
+            </div>
+            <button type="submit" class="btn btn-success">Shift</button>
+        </div>
+    </form>
+{% endblock %}

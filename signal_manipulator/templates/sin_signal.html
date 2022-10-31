@@ -1,0 +1,61 @@
+{% extends 'signal.html' %}
+{% block title %}
+    {% if request.session.sin_freq %}
+        Sin Signal Of Frequency: {{ request.session.sin_freq }} and Amplitude: {{ request.session.sin_amp }}
+    {% else %}
+        Sin Signal Graph
+    {% endif %}
+{% endblock %}
+{% block manipulator %}
+    <div class="accordion p-5" id="manipulatorForms">
+        <div class="accordion-item">
+        <h2 class="accordion-header" id="generate">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#generateForm" aria-expanded="true" aria-controls="generateForm">
+            Generate Sin Signal
+          </button>
+        </h2>
+        <div id="generateForm" class="accordion-collapse collapse show" aria-labelledby="generateForm" data-bs-parent="manipulatorForms">
+          <div class="accordion-body">
+              <form method="post">
+                  {% csrf_token %}
+                  <input type="hidden" name="action_type" value="GENERATE" hidden>
+                  <div class="card-body">
+                      <div class="mb-3">
+                        <label for="freq_input" class="form-label">Enter Frequency value</label>
+                        <input type="number" class="form-control" name="frequency" id="freq_input" placeholder="10, 20..." value="{{ request.session.sin_freq }}">
+                      </div>
+                      <div class="mb-3">
+                        <label for="amp_input" class="form-label">Enter Amplitude value</label>
+                        <input type="number" class="form-control" name="amplitude" id="amp_input" placeholder="1,2,5..." value="{{ request.session.sin_amp }}">
+                      </div>
+                      <button type="submit" class="btn btn-success">Generate</button>
+                  </div>
+              </form>
+          </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="shiftHead">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#shiftSignal" aria-expanded="false" aria-controls="shiftSignal">
+                Scale Sin Signal
+              </button>
+            </h2>
+            <div id="shiftSignal" class="accordion-collapse collapse" aria-labelledby="shift" data-bs-parent="#generateForms">
+              <div class="accordion-body">
+                <form method="post">
+                    {% csrf_token %}
+                  <input type="hidden" name="action_type" value="SCALE" hidden>
+                  <div class="card-body">
+                      <div class="mb-3">
+                        <label for="scale_input" class="form-label">Enter Value to Time Scale By</label>
+                        <input type="number" class="form-control" name="scale_factor" id="scale_input" placeholder="1,2,5...">
+                      </div>
+                      <button type="submit" class="btn btn-success {% if not request.session.sin_freq %}disabled{% endif %}">Generate</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+    </div>
+{% endblock %}
